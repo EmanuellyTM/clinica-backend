@@ -6,7 +6,9 @@ const db=require("./config/db");
 db();
 
 const app=express();
-app.use(cors());
+app.use(cors({
+  origin: "https://zesty-choux-5f2e69.netlify.app"
+}));
 app.use(express.json());
 
 app.use("/auth",require("./routes/authRoutes"));
