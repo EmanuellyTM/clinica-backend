@@ -1,12 +1,13 @@
-const r=require("express").Router();
-const auth=require("../middleware/authMiddleware");
-const c=require("../controllers/appointmentController");
+const router = require("express").Router();
+const auth = require("../middleware/authMiddleware");
+const Appointment = require("../models/Appointment");
+const { createAppointment, list } = require("../controllers/appointmentController");
 
 router.post("/", auth, createAppointment);
-router.get("/", auth, listAppointments);
-router.delete("/:id", auth, async (req, res) => {
 
-  const Appointment = require("../models/Appointment");
+router.get("/", auth, list);
+
+router.delete("/:id", auth, async (req, res) => {
 
   await Appointment.findByIdAndDelete(req.params.id);
 
@@ -14,4 +15,4 @@ router.delete("/:id", auth, async (req, res) => {
 
 });
 
-module.exports=r;
+module.exports = router;
