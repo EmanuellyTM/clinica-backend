@@ -1,9 +1,9 @@
 const router = require("express").Router();
 const auth = require("../middleware/authMiddleware");
 const Appointment = require("../models/Appointment");
-const { createAppointment, list } = require("../controllers/appointmentController");
+const { create, list } = require("../controllers/appointmentController");
 
-router.post("/", auth, createAppointment);
+router.post("/", auth, create);
 
 router.get("/", auth, list);
 
