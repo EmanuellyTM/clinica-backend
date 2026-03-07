@@ -34,13 +34,26 @@ exports.register = async (req, res) => {
 
 };
 
-exports.login=async(req,res)=>{
- const user=await User.findOne({email:req.body.email});
- if(!user) return res.status(404).send("Usuário não encontrado");
+exports.login = async (req, res) => {
 
- const valid=await bcrypt.compare(req.body.password,user.password);
- if(!valid) return res.status(401).send("Senha inválida");
+  const user = await User.findOne({ email: req.body.email });
 
- const token=jwt.sign({id:user._id},process.env.JWT_SECRET);
- res.json({token});
+  if (!user)
+    return res.status(400).send("Usuário não encontrado");
+
+  const valid = await bcrypt.compare(
+    req.body.password,
+    user.password
+  );
+
+  if (!valid)
+    return res.status(400).send("Senha incorreta");
+
+  const token = jwt.sign({
+    id: user._id,
+    name: user.name
+  }, process.env.JWT_SECRET);
+
+  res.json({ token });
+
 };
